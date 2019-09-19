@@ -2,12 +2,12 @@ from flask import Flask, render_template, request, session
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import joinedload
 from flask_admin import Admin
-from flask_admin.contrib.sqla import ModelView
 from flask_babelex import Babel
 from flask_babelex import lazy_gettext as __
 from flask_security import SQLAlchemyUserDatastore, Security, login_required
 
-from admin_views import CategoryModelView, PostModelView, UserModelView
+from admin_views import (CategoryModelView, PostModelView, UserModelView,
+                         RoleModelView)
 
 app = Flask(__name__)
 # Localización
@@ -43,7 +43,7 @@ admin = Admin(app, name='Admin', template_mode='bootstrap3')
 admin.add_view(CategoryModelView(Category, db.session, name=__('Categorias')))
 admin.add_view(PostModelView(Post, db.session))
 admin.add_view(UserModelView(User, db.session, name=__('Usuarios')))
-admin.add_view(ModelView(Role, db.session, name=__('Roles')))
+admin.add_view(RoleModelView(Role, db.session, name=__('Roles')))
 
 
 @app.cli.command("initdb")
