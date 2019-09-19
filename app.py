@@ -2,10 +2,12 @@ from flask import Flask, render_template, request, session
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import joinedload
 from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 from flask_babelex import Babel
+from flask_babelex import lazy_gettext as __
 from flask_security import SQLAlchemyUserDatastore, Security
 
-from admin_views import CategoryModelView, PostModelView
+from admin_views import CategoryModelView, PostModelView, UserModelView
 
 app = Flask(__name__)
 # Localización
@@ -28,6 +30,7 @@ from models import (Post, Category, User, Role)  # NOQA
 
 # Flask-Security
 app.config['SECRET_KEY'] = 'S3cr3tK3y'
+app.config['SECURITY_PASSWORD_SALT'] = 'S3cr3tK3y-S41t'
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
 
@@ -37,8 +40,10 @@ app.config['FLASK_ADMIN_SWATCH'] = 'flatly'
 admin = Admin(app, name='Admin', template_mode='bootstrap3')
 
 # Admin views
-admin.add_view(CategoryModelView(Category, db.session))
+admin.add_view(CategoryModelView(Category, db.session, name=__('Categorias')))
 admin.add_view(PostModelView(Post, db.session))
+admin.add_view(UserModelView(User, db.session, name=__('Usuarios')))
+admin.add_view(ModelView(Role, db.session, name=__('Roles')))
 
 
 @app.cli.command("initdb")
