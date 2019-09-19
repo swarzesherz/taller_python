@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import joinedload
 
@@ -35,11 +35,8 @@ def hello_world():
 # https://flask.palletsprojects.com/en/1.1.x/quickstart/#http-methods
 @app.route('/posts', methods=['GET'])
 def list_posts():
-    query = Category.query.options(joinedload('posts'))
-    result = {}
-    for category in query:
-        result[category.name] = [p.title for p in category.posts]
-    return jsonify(result)
+    categories = Category.query.options(joinedload('posts')).all()
+    return render_template('posts.html', categories=categories)
 
 
 if __name__ == '__main__':

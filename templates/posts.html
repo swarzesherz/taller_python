@@ -1,0 +1,27 @@
+{#https://jinja.palletsprojects.com/en/2.10.x/templates/#}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Posts</title>
+</head>
+<body>
+    <h1>Posts</h1>
+    <ul>
+    {% for category in categories %}
+        <li>
+            {{ category.name }}
+            <ul>
+                {% for post in category.posts %}
+                    <li>
+                        <label>Título:</label> {{ post.title }}<br/>
+                        <label>Cuerpo:</label> {{ post.body }}<br/>
+                        <label>Fecha:</label> {{ post.pub_date }}<br/>
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>
