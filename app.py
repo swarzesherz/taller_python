@@ -2,7 +2,8 @@ from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import joinedload
 from flask_admin import Admin
-from flask_admin.contrib.sqla import ModelView
+
+from admin_views import CategoryModelView, PostModelView
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -17,8 +18,8 @@ app.config['FLASK_ADMIN_SWATCH'] = 'flatly'
 admin = Admin(app, name='Admin', template_mode='bootstrap3')
 
 # Admin views
-admin.add_view(ModelView(Category, db.session))
-admin.add_view(ModelView(Post, db.session))
+admin.add_view(CategoryModelView(Category, db.session))
+admin.add_view(PostModelView(Post, db.session))
 
 
 @app.cli.command("initdb")
