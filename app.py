@@ -10,6 +10,7 @@ from admin_views import (CategoryModelView, PostModelView, UserModelView,
                          RoleModelView)
 
 app = Flask(__name__)
+app.config.from_pyfile('config.py')
 # Localización
 babel = Babel(app)
 
@@ -22,15 +23,11 @@ def get_locale():
 
 
 # SQL Alchemy
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
 db = SQLAlchemy(app)
 
 from models import (Post, Category, User, Role)  # NOQA
 
 # Flask-Security
-app.config['SECRET_KEY'] = 'S3cr3tK3y'
-app.config['SECURITY_PASSWORD_SALT'] = 'S3cr3tK3y-S41t'
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
 
