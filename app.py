@@ -5,7 +5,7 @@ from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_babelex import Babel
 from flask_babelex import lazy_gettext as __
-from flask_security import SQLAlchemyUserDatastore, Security
+from flask_security import SQLAlchemyUserDatastore, Security, login_required
 
 from admin_views import CategoryModelView, PostModelView, UserModelView
 
@@ -70,6 +70,7 @@ def hello_world():
 
 # https://flask.palletsprojects.com/en/1.1.x/quickstart/#http-methods
 @app.route('/posts', methods=['GET'])
+@login_required
 def list_posts():
     categories = Category.query.options(joinedload('posts')).all()
     return render_template('posts.html', categories=categories)
