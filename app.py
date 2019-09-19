@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import joinedload
 from flask_admin import Admin
 from flask_babelex import Babel
+from flask_security import SQLAlchemyUserDatastore, Security
 
 from admin_views import CategoryModelView, PostModelView
 
@@ -23,7 +24,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
 db = SQLAlchemy(app)
 
-from models import (Post, Category)  # NOQA
+from models import (Post, Category, User, Role)  # NOQA
+
+# Flask-Security
+app.config['SECRET_KEY'] = 'S3cr3tK3y'
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+security = Security(app, user_datastore)
 
 # Flask Admin
 # https://bootswatch.com/3/
