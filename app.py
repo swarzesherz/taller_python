@@ -1,10 +1,9 @@
 from flask import Flask, render_template, request, session
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import joinedload
+from flask_mongoengine import MongoEngine
 from flask_admin import Admin
 from flask_babelex import Babel
 from flask_babelex import lazy_gettext as __
-from flask_security import SQLAlchemyUserDatastore, Security, login_required
+from flask_security import MongoEngineUserDatastore, Security, login_required
 
 from admin_views import (CategoryModelView, PostModelView, UserModelView,
                          RoleModelView)
@@ -22,13 +21,13 @@ def get_locale():
     return session.get('lang', 'es')
 
 
-# SQL Alchemy
-db = SQLAlchemy(app)
+# MongoEngine
+db = MongoEngine(app)
 
 from models import (Post, Category, User, Role)  # NOQA
 
 # Flask-Security
-user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+user_datastore = MongoEngineUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
 
 # Flask Admin

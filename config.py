@@ -1,6 +1,6 @@
-# SQL Alchemy
-SQLALCHEMY_TRACK_MODIFICATIONS = False
-SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/test.db'
+# MongoEngine
+MONGODB_DB = 'blog'
+MONGODB_HOST = 'localhost'
 
 # Flask-Security
 SECRET_KEY = 'S3cr3tK3y'
