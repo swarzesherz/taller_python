@@ -1,6 +1,6 @@
 # https://flask-admin.readthedocs.io/en/latest/introduction/#customizing-built-in-views
 from flask import abort, redirect, url_for, request
-from flask_admin.contrib.sqla import ModelView
+from flask_admin.contrib.mongoengine import ModelView
 from flask_admin.form import SecureForm
 from flask_babelex import lazy_gettext as __
 from flask_security import current_user
